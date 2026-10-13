@@ -1,0 +1,1879 @@
+diff --git a/codex-rs/Cargo.lock b/codex-rs/Cargo.lock
+index 45fca1b..7ba1057 100644
+--- a/codex-rs/Cargo.lock
++++ b/codex-rs/Cargo.lock
+@@ -416,7 +416,7 @@ checksum = "2a4385e2e34eb35d6b3efe798b9eb88096925d87726c0798709bf56d9ed84af3"
+ 
+ [[package]]
+ name = "app_test_support"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "base64 0.22.1",
+@@ -2040,7 +2040,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-agent-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-core",
+@@ -2052,7 +2052,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-agent-graph-store"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-protocol",
+  "codex-state",
+@@ -2067,7 +2067,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-agent-identity"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "base64 0.22.1",
+@@ -2087,7 +2087,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-agent-roles"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-config",
+  "codex-file-system",
+@@ -2100,7 +2100,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-analytics"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-app-server-protocol",
+  "codex-git-utils",
+@@ -2121,7 +2121,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-ansi-escape"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "ansi-to-tui",
+  "ratatui",
+@@ -2130,7 +2130,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-api"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "assert_matches",
+@@ -2165,7 +2165,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-app-server"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "app_test_support",
+@@ -2268,7 +2268,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-app-server-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-app-server",
+  "codex-app-server-protocol",
+@@ -2295,7 +2295,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-app-server-daemon"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-app-server-protocol",
+@@ -2318,7 +2318,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-app-server-protocol"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-app-server-protocol-noop-macros",
+@@ -2352,11 +2352,11 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-app-server-protocol-noop-macros"
+-version = "0.0.0"
++version = "0.154.0"
+ 
+ [[package]]
+ name = "codex-app-server-test-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "clap",
+@@ -2378,7 +2378,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-app-server-transport"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "axum",
+@@ -2420,7 +2420,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-apply-patch"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "assert_cmd",
+@@ -2440,7 +2440,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-arg0"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-apply-patch",
+@@ -2462,7 +2462,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-async-utils"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "pretty_assertions",
+  "tokio",
+@@ -2471,7 +2471,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-attachment-store"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "codex-utils-image",
+@@ -2482,7 +2482,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-aws-auth"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "aws-config",
+  "aws-credential-types",
+@@ -2497,7 +2497,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-backend-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-api",
+@@ -2517,7 +2517,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-backend-openapi-models"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "serde",
+  "serde_json",
+@@ -2526,7 +2526,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-build-info"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-install-context",
+  "pretty_assertions",
+@@ -2539,7 +2539,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-bwrap"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "cc",
+  "libc",
+@@ -2548,7 +2548,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-chatgpt"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "clap",
+@@ -2570,7 +2570,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-cli"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "app_test_support",
+@@ -2663,7 +2663,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-http-client",
+  "eventsource-stream",
+@@ -2676,7 +2676,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-cloud-config"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "chrono",
+@@ -2701,7 +2701,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-cloud-tasks"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chrono",
+@@ -2734,7 +2734,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-cloud-tasks-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chrono",
+@@ -2749,7 +2749,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-cloud-tasks-mock-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "chrono",
+  "codex-cloud-tasks-client",
+@@ -2758,7 +2758,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-code-mode"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-code-mode-protocol",
+  "codex-http-client",
+@@ -2781,7 +2781,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-code-mode-host"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "axum",
+@@ -2809,7 +2809,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-code-mode-protocol"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-protocol",
+  "glob",
+@@ -2827,7 +2827,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-code-mode-runtime"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "codex-code-mode-protocol",
+@@ -2845,11 +2845,11 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-collaboration-mode-templates"
+-version = "0.0.0"
++version = "0.154.0"
+ 
+ [[package]]
+ name = "codex-config"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "base64 0.22.1",
+@@ -2898,7 +2898,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-config-schema"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "clap",
+@@ -2907,7 +2907,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-connectors"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "arc-swap",
+@@ -2929,7 +2929,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-connectors-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-connectors",
+  "codex-core-plugins",
+@@ -2943,7 +2943,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-context-fragments"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-protocol",
+  "codex-utils-string",
+@@ -2952,7 +2952,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-core"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "arc-swap",
+@@ -3087,7 +3087,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-core-api"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-analytics",
+  "codex-app-server-protocol",
+@@ -3110,7 +3110,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-core-plugins"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chrono",
+@@ -3165,7 +3165,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-diagnostics"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "libc",
+  "pretty_assertions",
+@@ -3173,7 +3173,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-exec"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "assert_cmd",
+@@ -3224,7 +3224,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-exec-server"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "arc-swap",
+@@ -3284,7 +3284,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-exec-server-protocol"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "codex-file-system",
+@@ -3299,7 +3299,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-exec-server-test-support"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-exec-server",
+@@ -3314,7 +3314,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-execpolicy"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "clap",
+@@ -3332,7 +3332,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-experimental-api-macros"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -3341,7 +3341,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-extension-api"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-config",
+  "codex-context-fragments",
+@@ -3359,7 +3359,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-extension-items"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-utils-absolute-path",
+  "pretty_assertions",
+@@ -3371,7 +3371,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-external-agent-migration"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "chrono",
+  "codex-analytics",
+@@ -3401,7 +3401,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-features"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-otel",
+  "codex-protocol",
+@@ -3414,7 +3414,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-feedback"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "bytes",
+@@ -3436,7 +3436,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-file-search"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "clap",
+@@ -3452,7 +3452,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-file-system"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "bytes",
+  "codex-protocol",
+@@ -3464,7 +3464,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-file-watcher"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "notify",
+  "pretty_assertions",
+@@ -3475,7 +3475,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-git-attribution"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-backend-client",
+  "codex-extension-api",
+@@ -3488,7 +3488,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-git-utils"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chrono",
+@@ -3514,7 +3514,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-goal-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chrono",
+@@ -3538,7 +3538,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-guardian-context"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-history",
+  "codex-protocol",
+@@ -3548,7 +3548,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-guardian-v2"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-analytics",
+@@ -3578,7 +3578,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-history"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-protocol",
+@@ -3590,7 +3590,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-history-notes-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-analytics",
+  "codex-api",
+@@ -3615,7 +3615,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-home"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-extension-api",
+  "codex-utils-absolute-path",
+@@ -3626,7 +3626,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-hooks"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "async-channel",
+@@ -3652,7 +3652,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-http-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "bytes",
+  "codex-utils-cargo-bin",
+@@ -3684,7 +3684,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-image-generation-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "codex-api",
+@@ -3711,7 +3711,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-install-context"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-utils-absolute-path",
+  "codex-utils-home-dir",
+@@ -3724,7 +3724,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-keyring-store"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "keyring",
+  "tracing",
+@@ -3732,7 +3732,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-linux-sandbox"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "clap",
+  "codex-core",
+@@ -3759,7 +3759,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-lmstudio"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-core",
+  "codex-http-client",
+@@ -3773,7 +3773,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-login"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "base64 0.22.1",
+@@ -3816,7 +3816,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-mcp"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "arc-swap",
+@@ -3856,7 +3856,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-mcp-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "axum",
+@@ -3887,7 +3887,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-memories-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-core",
+  "codex-extension-api",
+@@ -3908,7 +3908,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-memories-read"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-protocol",
+  "codex-shell-command",
+@@ -3918,7 +3918,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-memories-write"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chrono",
+@@ -3955,7 +3955,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-message-history"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-config",
+  "memchr",
+@@ -3969,7 +3969,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-model-provider"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-agent-identity",
+  "codex-api",
+@@ -3993,7 +3993,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-model-provider-info"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-api",
+  "codex-protocol",
+@@ -4010,7 +4010,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-models-manager"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "chrono",
+  "codex-collaboration-mode-templates",
+@@ -4029,7 +4029,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-mxc-sandbox"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "appcontainer_common",
+@@ -4041,7 +4041,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-network-proxy"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "base64 0.22.1",
+@@ -4080,7 +4080,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-ollama"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "assert_matches",
+  "async-stream",
+@@ -4100,7 +4100,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-otel"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "chrono",
+  "codex-api",
+@@ -4133,7 +4133,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-otel-trace-websocket"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "axum",
+@@ -4144,7 +4144,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-plugin"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-config",
+  "codex-protocol",
+@@ -4158,7 +4158,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-process-hardening"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "libc",
+  "pretty_assertions",
+@@ -4166,7 +4166,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-prompts"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-context-fragments",
+@@ -4180,7 +4180,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-protocol"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chardetng",
+@@ -4224,7 +4224,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-queue-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-core",
+@@ -4245,7 +4245,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-realtime-webrtc"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-build-info",
+@@ -4262,7 +4262,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-response-debug-context"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "codex-api",
+@@ -4273,7 +4273,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-responses-api-proxy"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "clap",
+@@ -4290,7 +4290,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-rmcp-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "axum",
+@@ -4336,7 +4336,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-rollout"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chrono",
+@@ -4363,7 +4363,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-rollout-trace"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-code-mode",
+@@ -4379,7 +4379,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-sandboxing"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-mxc-sandbox",
+@@ -4405,7 +4405,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-secrets"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "age",
+  "anyhow",
+@@ -4426,7 +4426,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-shell-command"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "base64 0.22.1",
+@@ -4449,7 +4449,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-shell-escalation"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "clap",
+@@ -4469,7 +4469,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-skills"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-protocol",
+  "codex-shell-command",
+@@ -4486,7 +4486,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-skills-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "assert_matches",
+  "codex-analytics",
+@@ -4523,7 +4523,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-state"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "chrono",
+@@ -4547,7 +4547,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-stdio-to-uds"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-uds",
+@@ -4559,7 +4559,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-terminal-detection"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "pretty_assertions",
+  "tracing",
+@@ -4567,7 +4567,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-test-binary-support"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-arg0",
+  "tempfile",
+@@ -4575,7 +4575,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-thread-manager-sample"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "clap",
+@@ -4586,7 +4586,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-thread-store"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "chrono",
+  "codex-app-server-protocol",
+@@ -4616,7 +4616,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-tools"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "bitflags 2.13.1",
+  "codex-code-mode",
+@@ -4641,7 +4641,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-tui"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "app_test_support",
+@@ -4758,7 +4758,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-uds"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "async-io",
+  "pretty_assertions",
+@@ -4771,7 +4771,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-absolute-path"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "dirs",
+  "dunce",
+@@ -4785,14 +4785,14 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-approval-presets"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-protocol",
+ ]
+ 
+ [[package]]
+ name = "codex-utils-audio"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "codex-protocol",
+@@ -4806,7 +4806,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-cache"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "lru",
+  "sha1 0.10.6",
+@@ -4815,7 +4815,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-cargo-bin"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "assert_cmd",
+  "runfiles",
+@@ -4824,7 +4824,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-cli"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "clap",
+  "codex-protocol",
+@@ -4836,15 +4836,15 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-elapsed"
+-version = "0.0.0"
++version = "0.154.0"
+ 
+ [[package]]
+ name = "codex-utils-fuzzy-match"
+-version = "0.0.0"
++version = "0.154.0"
+ 
+ [[package]]
+ name = "codex-utils-git-discovery"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-git-utils",
+  "codex-utils-absolute-path",
+@@ -4857,7 +4857,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-home-dir"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-utils-absolute-path",
+  "dirs",
+@@ -4867,7 +4867,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-image"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "codex-utils-cache",
+@@ -4880,7 +4880,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-json-to-toml"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "pretty_assertions",
+  "serde_json",
+@@ -4889,7 +4889,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-oss"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-core",
+  "codex-lmstudio",
+@@ -4899,7 +4899,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-output-truncation"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-protocol",
+  "codex-utils-string",
+@@ -4908,7 +4908,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-path"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-utils-absolute-path",
+  "dunce",
+@@ -4919,7 +4919,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-path-uri"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "base64 0.22.1",
+  "codex-utils-absolute-path",
+@@ -4935,7 +4935,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-plugins"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-exec-server",
+  "codex-exec-server-protocol",
+@@ -4949,7 +4949,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-pty"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "filedescriptor",
+@@ -4965,7 +4965,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-readiness"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "assert_matches",
+  "thiserror 2.0.18",
+@@ -4975,7 +4975,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-redacted-string"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "schemars 0.8.22",
+  "serde",
+@@ -4983,14 +4983,14 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-rustls-provider"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "rustls",
+ ]
+ 
+ [[package]]
+ name = "codex-utils-sandbox-summary"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-protocol",
+  "codex-utils-absolute-path",
+@@ -4999,7 +4999,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-sleep-inhibitor"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "core-foundation 0.9.4",
+  "libc",
+@@ -5009,14 +5009,14 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-stream-parser"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "pretty_assertions",
+ ]
+ 
+ [[package]]
+ name = "codex-utils-string"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "pretty_assertions",
+  "regex-lite",
+@@ -5026,14 +5026,14 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-utils-template"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "pretty_assertions",
+ ]
+ 
+ [[package]]
+ name = "codex-v8-poc"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "pretty_assertions",
+  "v8",
+@@ -5041,7 +5041,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-voice-host"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-install-context",
+@@ -5068,7 +5068,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-web-search-extension"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-api",
+  "codex-core",
+@@ -5089,7 +5089,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-websocket-client"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-http-client",
+  "codex-utils-rustls-provider",
+@@ -5105,7 +5105,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-windows-sandbox"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "base64 0.22.1",
+@@ -5131,7 +5131,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-windows-sandbox-service"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-cloud-config",
+@@ -5148,7 +5148,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-workload-identity"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "codex-http-client",
+  "pretty_assertions",
+@@ -5163,7 +5163,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "codex-worktree"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "codex-git-utils",
+@@ -5403,7 +5403,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "core_test_support"
+-version = "0.0.0"
++version = "0.154.0"
+ dependencies = [
+  "anyhow",
+  "assert_cmd",
+diff --git a/codex-rs/tui/src/bottom_pane/bottom_pane_view.rs b/codex-rs/tui/src/bottom_pane/bottom_pane_view.rs
+index 6d33284..a4f0ef6 100644
+--- a/codex-rs/tui/src/bottom_pane/bottom_pane_view.rs
++++ b/codex-rs/tui/src/bottom_pane/bottom_pane_view.rs
+@@ -32,6 +32,11 @@ pub(crate) trait BottomPaneView: Renderable {
+         false
+     }
+ 
++    /// Return text to insert into the composer as a draft when the view completes.
++    fn take_composer_insertion(&mut self) -> Option<String> {
++        None
++    }
++
+     /// Return the completion reason once the view has finished.
+     fn completion(&self) -> Option<ViewCompletion> {
+         None
+diff --git a/codex-rs/tui/src/bottom_pane/mod.rs b/codex-rs/tui/src/bottom_pane/mod.rs
+index f249fad..6448ea1 100644
+--- a/codex-rs/tui/src/bottom_pane/mod.rs
++++ b/codex-rs/tui/src/bottom_pane/mod.rs
+@@ -167,6 +167,7 @@ pub(crate) use title_setup::TerminalTitleItem;
+ pub(crate) use title_setup::TerminalTitleSetupView;
+ #[cfg(test)]
+ pub(crate) use title_setup::preview_line_for_title_items;
++pub(crate) mod orator;
+ mod paste_burst;
+ mod pending_input_preview;
+ mod pending_thread_approvals;
+@@ -932,6 +933,9 @@ impl BottomPane {
+         let needs_redraw = view.pre_draw_tick(now);
+         let view_complete = view.is_complete();
+         if view_complete {
++            if let Some(text) = view.take_composer_insertion() {
++                self.composer.insert_str(&text);
++            }
+             self.view_stack.clear();
+             self.on_active_view_complete();
+         }
+diff --git a/codex-rs/tui/src/bottom_pane/orator.rs b/codex-rs/tui/src/bottom_pane/orator.rs
+new file mode 100644
+index 0000000..4f00bf6
+--- /dev/null
++++ b/codex-rs/tui/src/bottom_pane/orator.rs
+@@ -0,0 +1,288 @@
++//! Dictation panel backed by a local speech worker over JSON pipes.
++
++use super::BottomPaneView;
++use super::CancellationEvent;
++use super::selection_popup_common::menu_surface_inset;
++use super::selection_popup_common::menu_surface_padding_height;
++use super::selection_popup_common::render_menu_surface;
++use crate::render::renderable::Renderable;
++use crossterm::event::KeyCode;
++use crossterm::event::KeyEvent;
++use crossterm::event::KeyEventKind;
++use crossterm::event::KeyModifiers;
++use ratatui::buffer::Buffer;
++use ratatui::layout::Rect;
++use ratatui::style::Stylize;
++use ratatui::text::Line;
++use ratatui::widgets::Paragraph;
++use ratatui::widgets::Widget;
++use ratatui::widgets::Wrap;
++use serde::Deserialize;
++use std::io::BufRead;
++use std::io::BufReader;
++use std::io::Write;
++use std::process::Child;
++use std::process::Command;
++use std::process::Stdio;
++use std::sync::mpsc;
++use std::time::Duration;
++use std::time::Instant;
++
++#[derive(Debug, Deserialize)]
++#[serde(tag = "event", rename_all = "snake_case")]
++enum Message {
++    Recording,
++    Transcribing,
++    Result { text: String },
++    Error { message: String },
++}
++
++#[derive(Debug, PartialEq)]
++enum Phase {
++    Starting,
++    Recording,
++    Transcribing,
++    Empty,
++    Failed(String),
++    Complete,
++}
++
++pub(crate) struct OratorView {
++    phase: Phase,
++    started: Instant,
++    child: Option<Child>,
++    messages: mpsc::Receiver<Message>,
++    insertion: Option<String>,
++}
++
++impl OratorView {
++    pub(crate) fn start() -> Self {
++        let (tx, messages) = mpsc::sync_channel(/*bound*/ 8);
++        let mut view = Self {
++            phase: Phase::Starting,
++            started: Instant::now(),
++            child: None,
++            messages,
++            insertion: None,
++        };
++        let Some(data_dir) = dirs::data_local_dir() else {
++            view.phase = Phase::Failed("Cannot find Orator's installation directory.".into());
++            return view;
++        };
++        match Command::new(data_dir.join("orator/bin/orator-backend"))
++            .stdin(Stdio::piped())
++            .stdout(Stdio::piped())
++            .stderr(Stdio::null())
++            .spawn()
++        {
++            Ok(mut child) => {
++                let Some(stdout) = child.stdout.take() else {
++                    drop(child.stdin.take());
++                    view.child = Some(child);
++                    view.phase = Phase::Failed("Cannot read Orator's output.".into());
++                    return view;
++                };
++                std::thread::spawn(move || {
++                    for line in BufReader::new(stdout).lines() {
++                        let message = match line {
++                            Ok(line) => serde_json::from_str(&line).unwrap_or(Message::Error {
++                                message: "Orator returned an invalid response.".into(),
++                            }),
++                            Err(error) => Message::Error {
++                                message: error.to_string(),
++                            },
++                        };
++                        let failed = matches!(message, Message::Error { .. });
++                        if tx.send(message).is_err() || failed {
++                            break;
++                        }
++                    }
++                });
++                view.child = Some(child);
++            }
++            Err(error) => {
++                view.phase = Phase::Failed(format!(
++                    "Cannot start Orator: {error}. Run the Orator installer."
++                ));
++            }
++        }
++        view
++    }
++}
++
++impl BottomPaneView for OratorView {
++    fn handle_key_event(&mut self, key: KeyEvent) {
++        if key.kind != KeyEventKind::Press {
++            return;
++        }
++        if key.code == KeyCode::Esc
++            || (key.code == KeyCode::Char('c') && key.modifiers.contains(KeyModifiers::CONTROL))
++        {
++            self.on_ctrl_c();
++        } else if key.code == KeyCode::Enter {
++            match self.phase {
++                Phase::Starting | Phase::Recording => {
++                    let sent = self
++                        .child
++                        .as_mut()
++                        .and_then(|child| child.stdin.as_mut())
++                        .is_some_and(|stdin| stdin.write_all(b"stop\n").is_ok());
++                    self.phase = if sent {
++                        Phase::Transcribing
++                    } else {
++                        Phase::Failed("Orator stopped unexpectedly. Try /record again.".into())
++                    };
++                }
++                Phase::Empty | Phase::Failed(_) => self.phase = Phase::Complete,
++                Phase::Transcribing | Phase::Complete => {}
++            }
++        }
++    }
++
++    fn on_ctrl_c(&mut self) -> CancellationEvent {
++        self.insertion = None;
++        self.phase = Phase::Complete;
++        CancellationEvent::Handled
++    }
++
++    fn is_complete(&self) -> bool {
++        self.phase == Phase::Complete
++    }
++
++    fn take_composer_insertion(&mut self) -> Option<String> {
++        self.insertion.take()
++    }
++
++    fn pre_draw_tick(&mut self, now: Instant) -> bool {
++        if matches!(
++            self.phase,
++            Phase::Empty | Phase::Failed(_) | Phase::Complete
++        ) {
++            return false;
++        }
++        loop {
++            match self.messages.try_recv() {
++                Ok(Message::Recording) => {
++                    if self.phase == Phase::Starting {
++                        self.phase = Phase::Recording;
++                        self.started = now;
++                    }
++                }
++                Ok(Message::Transcribing) => self.phase = Phase::Transcribing,
++                Ok(Message::Result { text }) => {
++                    let text: String = text
++                        .chars()
++                        .filter(|c| !c.is_control())
++                        .take(/*n*/ 16_000)
++                        .collect();
++                    let text = text.split_whitespace().collect::<Vec<_>>().join(" ");
++                    self.phase = if text.is_empty() {
++                        Phase::Empty
++                    } else {
++                        self.insertion = Some(text);
++                        Phase::Complete
++                    };
++                    break;
++                }
++                Ok(Message::Error { message }) => {
++                    self.phase = Phase::Failed(message);
++                    break;
++                }
++                Err(mpsc::TryRecvError::Empty) => break,
++                Err(mpsc::TryRecvError::Disconnected) => {
++                    self.phase =
++                        Phase::Failed("Orator stopped unexpectedly. Try /record again.".into());
++                    break;
++                }
++            }
++        }
++        if matches!(self.phase, Phase::Failed(_))
++            && let Some(child) = self.child.as_mut()
++        {
++            drop(child.stdin.take());
++        }
++        true
++    }
++
++    fn next_frame_delay(&self) -> Option<Duration> {
++        match self.phase {
++            Phase::Starting | Phase::Recording | Phase::Transcribing => {
++                Some(Duration::from_millis(/*millis*/ 100))
++            }
++            Phase::Empty | Phase::Failed(_) | Phase::Complete => None,
++        }
++    }
++}
++
++impl Renderable for OratorView {
++    fn desired_height(&self, width: u16) -> u16 {
++        let inner_width = menu_surface_inset(Rect::new(
++            /*x*/ 0, /*y*/ 0, width, /*height*/ 0,
++        ))
++        .width;
++        menu_surface_padding_height()
++            + Paragraph::new(self.lines())
++                .wrap(Wrap { trim: false })
++                .line_count(inner_width.max(1)) as u16
++    }
++
++    fn render(&self, area: Rect, buf: &mut Buffer) {
++        let area = render_menu_surface(area, buf);
++        Paragraph::new(self.lines())
++            .wrap(Wrap { trim: false })
++            .render(area, buf);
++    }
++}
++
++impl OratorView {
++    fn lines(&self) -> Vec<Line<'static>> {
++        let (status, hint) = match &self.phase {
++            Phase::Starting => ("Starting microphone…".into(), "esc cancel"),
++            Phase::Recording => {
++                let seconds = self.started.elapsed().as_secs();
++                (
++                    format!("● Recording  {}:{:02}", seconds / 60, seconds % 60),
++                    "enter stop  ·  esc cancel",
++                )
++            }
++            Phase::Transcribing => ("Transcribing locally…".into(), "esc cancel"),
++            Phase::Empty => ("No speech detected.".into(), "enter close  ·  esc cancel"),
++            Phase::Failed(message) => (message.clone(), "enter close  ·  esc cancel"),
++            Phase::Complete => (String::new(), ""),
++        };
++        let status = if matches!(self.phase, Phase::Failed(_)) {
++            status.red()
++        } else {
++            status.cyan()
++        };
++        vec![
++            Line::from(vec!["Orator".bold(), " · speech to text".dim()]),
++            Line::from(status),
++            Line::from("Transcript goes into your draft for review.".dim()),
++            Line::from(hint.dim()),
++        ]
++    }
++}
++
++impl Drop for OratorView {
++    fn drop(&mut self) {
++        if let Some(mut child) = self.child.take() {
++            // EOF cancels the worker; reap off the UI thread.
++            drop(child.stdin.take());
++            std::thread::spawn(move || {
++                for _ in 0..50 {
++                    if child.try_wait().ok().flatten().is_some() {
++                        return;
++                    }
++                    std::thread::sleep(Duration::from_millis(/*millis*/ 100));
++                }
++                let _ = child.kill();
++                let _ = child.wait();
++            });
++        }
++    }
++}
++
++#[cfg(test)]
++#[path = "orator_tests.rs"]
++mod tests;
+diff --git a/codex-rs/tui/src/bottom_pane/orator_tests.rs b/codex-rs/tui/src/bottom_pane/orator_tests.rs
+new file mode 100644
+index 0000000..3a9c1a0
+--- /dev/null
++++ b/codex-rs/tui/src/bottom_pane/orator_tests.rs
+@@ -0,0 +1,115 @@
++use super::*;
++use crate::app_event_sender::AppEventSender;
++use crate::bottom_pane::tests::test_pane;
++use pretty_assertions::assert_eq;
++
++fn fixture() -> (OratorView, mpsc::Sender<Message>) {
++    let (sender, messages) = mpsc::channel();
++    (
++        OratorView {
++            phase: Phase::Recording,
++            started: Instant::now(),
++            child: None,
++            messages,
++            insertion: None,
++        },
++        sender,
++    )
++}
++
++#[test]
++fn transcript_is_inserted_in_existing_draft_without_submission() {
++    let (events, mut received) = tokio::sync::mpsc::unbounded_channel();
++    let mut pane = test_pane(AppEventSender::new(events));
++    pane.insert_str("Existing draft: ");
++    let (view, sender) = fixture();
++    pane.show_view(Box::new(view));
++    sender
++        .send(Message::Result {
++            text: "dictated words".into(),
++        })
++        .unwrap();
++    pane.pre_draw_tick();
++    assert_eq!(pane.composer_text(), "Existing draft: dictated words");
++    assert!(!pane.has_active_view());
++    assert!(
++        received.try_recv().is_err(),
++        "dictation must never submit an agent event"
++    );
++}
++
++#[test]
++fn escape_discards_a_queued_transcript_and_restores_typing() {
++    let (events, _received) = tokio::sync::mpsc::unbounded_channel();
++    let mut pane = test_pane(AppEventSender::new(events));
++    let (view, sender) = fixture();
++    pane.show_view(Box::new(view));
++    sender
++        .send(Message::Result {
++            text: "cancelled speech".into(),
++        })
++        .unwrap();
++    pane.handle_key_event(KeyEvent::new(KeyCode::Esc, KeyModifiers::NONE));
++    pane.pre_draw_tick();
++    pane.insert_str("日本語 café 🗣");
++    assert_eq!(pane.composer_text(), "日本語 café 🗣");
++    assert!(!pane.has_active_view());
++}
++
++#[test]
++fn silence_and_errors_leave_draft_unchanged() {
++    for message in [
++        Message::Result {
++            text: " \n\t".into(),
++        },
++        Message::Error {
++            message: "Microphone unavailable".into(),
++        },
++    ] {
++        let (mut view, sender) = fixture();
++        sender.send(message).unwrap();
++        view.pre_draw_tick(Instant::now());
++        assert!(view.take_composer_insertion().is_none());
++        assert!(!view.is_complete());
++        view.handle_key_event(KeyEvent::new(KeyCode::Enter, KeyModifiers::NONE));
++        assert!(view.is_complete());
++    }
++}
++
++#[test]
++fn key_releases_and_repeats_do_not_stop_recording() {
++    let (mut view, _sender) = fixture();
++    for kind in [KeyEventKind::Release, KeyEventKind::Repeat] {
++        view.handle_key_event(KeyEvent::new_with_kind(
++            KeyCode::Enter,
++            KeyModifiers::NONE,
++            kind,
++        ));
++    }
++    assert_eq!(view.phase, Phase::Recording);
++}
++
++#[test]
++fn recording_and_transcribing_panels() {
++    let (mut view, _sender) = fixture();
++    let mut screens = Vec::new();
++    for phase in [Phase::Recording, Phase::Transcribing, Phase::Empty] {
++        view.phase = phase;
++        let height = view.desired_height(/*width*/ 65);
++        let mut buffer = Buffer::empty(Rect::new(
++            /*x*/ 0, /*y*/ 0, /*width*/ 65, height,
++        ));
++        view.render(buffer.area, &mut buffer);
++        let rows: Vec<String> = (0..height)
++            .map(|y| {
++                (0..65)
++                    .map(|x| buffer[(x, y)].symbol())
++                    .collect::<String>()
++                    .trim_end()
++                    .to_string()
++            })
++            .collect();
++        screens.push(rows.join("\n"));
++    }
++    insta::assert_snapshot!(screens.join("\n\n"));
++}
+diff --git a/codex-rs/tui/src/bottom_pane/snapshots/codex_tui__bottom_pane__orator__tests__recording_and_transcribing_panels.snap b/codex-rs/tui/src/bottom_pane/snapshots/codex_tui__bottom_pane__orator__tests__recording_and_transcribing_panels.snap
+new file mode 100644
+index 0000000..2be066f
+--- /dev/null
++++ b/codex-rs/tui/src/bottom_pane/snapshots/codex_tui__bottom_pane__orator__tests__recording_and_transcribing_panels.snap
+@@ -0,0 +1,23 @@
++---
++source: tui/src/bottom_pane/orator_tests.rs
++expression: "screens.join(\"\\n\\n\")"
++---
++
++  Orator · speech to text
++  ● Recording  0:00
++  Transcript goes into your draft for review.
++  enter stop  ·  esc cancel
++
++
++
++  Orator · speech to text
++  Transcribing locally…
++  Transcript goes into your draft for review.
++  esc cancel
++
++
++
++  Orator · speech to text
++  No speech detected.
++  Transcript goes into your draft for review.
++  enter close  ·  esc cancel
+diff --git a/codex-rs/tui/src/chatwidget/slash_dispatch.rs b/codex-rs/tui/src/chatwidget/slash_dispatch.rs
+index b8db07e..8c07e0d 100644
+--- a/codex-rs/tui/src/chatwidget/slash_dispatch.rs
++++ b/codex-rs/tui/src/chatwidget/slash_dispatch.rs
+@@ -168,6 +168,10 @@ impl ChatWidget {
+         }
+ 
+         match cmd {
++            SlashCommand::Record => {
++                self.bottom_pane
++                    .show_view(Box::new(crate::bottom_pane::orator::OratorView::start()));
++            }
+             SlashCommand::Feedback => {
+                 if !self.config.feedback_enabled {
+                     let params = crate::bottom_pane::feedback_disabled_params();
+@@ -1196,7 +1200,8 @@ impl ChatWidget {
+                     QueueDrain::Continue
+                 }
+             }
+-            SlashCommand::Feedback
++            SlashCommand::Record
++            | SlashCommand::Feedback
+             | SlashCommand::Export
+             | SlashCommand::New
+             | SlashCommand::Archive
+diff --git a/codex-rs/tui/src/slash_command.rs b/codex-rs/tui/src/slash_command.rs
+index ca83861..c8140d3 100644
+--- a/codex-rs/tui/src/slash_command.rs
++++ b/codex-rs/tui/src/slash_command.rs
+@@ -40,6 +40,7 @@ pub enum SlashCommand {
+     Init,
+     Compact,
+     Recap,
++    Record,
+     Plan,
+     Goal,
+     Agents,
+@@ -88,6 +89,7 @@ impl SlashCommand {
+     /// User-visible description shown in the popup.
+     pub fn description(self) -> &'static str {
+         match self {
++            SlashCommand::Record => "dictate a draft with Orator (local speech to text)",
+             SlashCommand::Feedback => "send logs to maintainers",
+             SlashCommand::New => "start a new chat during a conversation",
+             SlashCommand::Init => "create an AGENTS.md file with instructions for Codex",
+@@ -208,7 +210,8 @@ impl SlashCommand {
+     /// Whether this command can be run while a task is in progress.
+     pub fn available_during_task(self) -> bool {
+         match self {
+-            SlashCommand::New
++            SlashCommand::Record
++            | SlashCommand::New
+             | SlashCommand::Archive
+             | SlashCommand::Delete
+             | SlashCommand::Fork
+@@ -271,6 +274,7 @@ impl SlashCommand {
+ 
+     fn is_visible(self) -> bool {
+         match self {
++            SlashCommand::Record => cfg!(target_os = "linux"),
+             SlashCommand::SandboxReadRoot => cfg!(target_os = "windows"),
+             SlashCommand::Copy => !cfg!(target_os = "android"),
+             SlashCommand::App => cfg!(any(target_os = "macos", target_os = "windows")),

@@ -1,0 +1,80 @@
+# Orator
+
+A `/record` mod for Codex CLI.
+
+Type `/record`, speak, then press Enter. Your words go into the draft for editing.
+Esc cancels. Transcription runs locally with Whisper and uses one microphone
+channel. No speech API key is needed.
+
+## Install
+
+Supports Codex CLI **0.154.0** on **Linux x86_64**. Requires Git, Rust, Python 3,
+`uv`, and `parecord` from the PulseAudio utilities package. PipeWire works too.
+
+```sh
+git clone https://github.com/amarionfred/orator.git
+cd orator
+python3 install.py
+```
+
+Codex 0.154.0 has no extension hook for a native recording panel. The installer
+downloads the official source into a local cache, applies the patch, and builds
+it. The first build needs several GB of disk space and can take a while.
+
+The repo contains the patch, speech worker, installer, and tests. It does not
+contain the Codex source tree. The system Codex package is left in place;
+`~/.local/bin/codex` selects the patched executable. Keep `~/.local/bin` ahead
+of the system install in `PATH`, then open a fresh terminal.
+
+The speech model is downloaded once. Recording and transcription then work offline.
+
+## Settings
+
+Edit `~/.config/orator/config.toml`:
+
+```toml
+model = "base"
+language = "auto"
+source = "default"
+max_seconds = 180
+cpu_threads = 4
+```
+
+Set `language = "en"` for English. To choose a microphone, run
+`pactl list short sources` and put its name in `source`. A name ending in
+`.monitor` records speaker output. Orator records only the first input channel,
+with channel mixing disabled.
+
+## Remove
+
+```sh
+python3 install.py --uninstall
+```
+
+This removes Orator's `codex` symlink. The next terminal session uses the system
+installation. Settings, model files, and build cache are kept for reinstalling.
+
+## Development
+
+`patches/codex-0.154.0.patch` contains the native panel and draft insertion code.
+`orator/backend.py` handles microphone capture and transcription.
+
+To reuse an existing patched build:
+
+```sh
+python3 install.py --from-build /path/to/codex-checkout
+```
+
+Checks:
+
+```sh
+python3 -m unittest discover -s tests -v
+~/.local/share/orator/venv/bin/python orator/test_capture.py
+python3 orator/qa_backend.py --audio speech.wav --expect "words in the recording"
+```
+
+The audio checks need FFmpeg and use a temporary virtual input. They do not
+record your microphone. The native patch includes TUI tests for draft insertion,
+cancellation, and key handling.
+
+[Apache-2.0](LICENSE). Upstream attribution is in [NOTICE](NOTICE).
