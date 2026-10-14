@@ -76,7 +76,9 @@ class BackendTests(unittest.TestCase):
             (saved,) = config["transcripts"].glob("*.txt")
             self.assertEqual(saved.read_text(encoding="utf-8"), expected)
             self.assertEqual(saved.stat().st_mode & 0o777, 0o600)
-            self.assertEqual(result, f"Full transcript saved to: {saved}")
+            self.assertEqual(
+                result, f"Full transcript (auto-deletes after 24h): {saved}"
+            )
             connection.close.assert_called_once_with()
             self.assertEqual(model.transcribe.call_count, 2)
 

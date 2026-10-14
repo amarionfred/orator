@@ -68,6 +68,43 @@ def uninstall(launcher, data):
     print("Orator disabled. Open a new terminal to use the system Codex.")
 
 
+def install_cleanup_timer(data, config):
+    """Expire saved transcripts even while Orator is idle or disabled."""
+    units = config.parent / "systemd/user"
+    units.mkdir(parents=True, exist_ok=True)
+    # systemd uses quoted strings with C escapes and expands percent specifiers.
+    python, backend, data_env, config_env = (
+        json.dumps(str(value), ensure_ascii=False).replace("%", "%%")
+        for value in (
+            data / "venv/bin/python",
+            data / "backend.py",
+            f"XDG_DATA_HOME={data.parent}",
+            f"XDG_CONFIG_HOME={config.parent}",
+        )
+    )
+    (units / "orator-transcripts-cleanup.service").write_text(
+        "[Unit]\nDescription=Delete expired Orator transcripts\n\n"
+        "[Service]\nType=oneshot\n"
+        f"Environment={data_env}\nEnvironment={config_env}\n"
+        # The colon prefix disables dollar expansion in command arguments.
+        f"ExecStart=:{python} {backend} --cleanup-transcripts\n"
+    )
+    (units / "orator-transcripts-cleanup.timer").write_text(
+        "[Unit]\nDescription=Check Orator transcript expiry every 15 minutes\n\n"
+        "[Timer]\nOnCalendar=*:0/15\nPersistent=true\nAccuracySec=1s\n\n"
+        "[Install]\nWantedBy=timers.target\n"
+    )
+    subprocess.run(["systemctl", "--user", "daemon-reload"], check=True)
+    subprocess.run(
+        ["systemctl", "--user", "enable", "--now", "orator-transcripts-cleanup.timer"],
+        check=True,
+    )
+    subprocess.run(
+        ["systemctl", "--user", "start", "orator-transcripts-cleanup.service"],
+        check=True,
+    )
+
+
 def install_worker(data, cache, config):
     data.mkdir(parents=True, exist_ok=True)
     python = data / "venv/bin/python"
@@ -111,7 +148,9 @@ def install_worker(data, cache, config):
     if not settings.exists():
         settings.write_text(
             'model = "base"\nlanguage = "auto"\nsource = "default"\ncpu_threads = 4\n'
+            "transcript_retention_hours = 24\n"
         )
+    install_cleanup_timer(data, config)
 
 
 def main():
@@ -144,7 +183,7 @@ def main():
     if args.jobs < 1:
         parser.error("--jobs must be positive")
     check_launcher(launcher, data)
-    for tool in ("git", "uv", "parecord"):
+    for tool in ("git", "uv", "parecord", "systemctl"):
         if shutil.which(tool) is None:
             raise ValueError(f"Required command not found: {tool}")
     codex = find_codex(data, args.codex)

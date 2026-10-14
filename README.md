@@ -10,7 +10,8 @@ Recording continues until you stop it; there is no automatic time limit.
 ## Install
 
 Supports Codex CLI **0.154.0** on **Linux x86_64**. Requires Git, Rust, Python 3,
-`uv`, and `parecord` from the PulseAudio utilities package. PipeWire works too.
+`uv`, `parecord` from the PulseAudio utilities package, and a running systemd user
+manager for automatic transcript cleanup. PipeWire works too.
 
 ```sh
 git clone https://github.com/amarionfred/orator.git
@@ -38,6 +39,7 @@ model = "base"
 language = "auto"
 source = "default"
 cpu_threads = 4
+transcript_retention_hours = 24
 ```
 
 Set `language = "en"` for English. To choose a microphone, run
@@ -53,8 +55,14 @@ in pieces of at most five minutes and has no fixed deadline; Esc still cancels i
 Dictations up to 16,000 characters go directly into the draft. Longer transcripts
 are saved in full under `~/.local/share/orator/transcripts/` (or
 `$XDG_DATA_HOME/orator/transcripts/`), and their file path goes into the draft for
-review. These text files remain until you delete them; temporary audio is removed
-after transcription or cancellation.
+review. Saved transcript files expire after **24 hours** by default. Set
+`transcript_retention_hours` to `1` or `2` for shorter retention. A background timer
+checks every 15 minutes, including when you are not recording, and catches up
+after your next login if the computer was off. Starting a recording also removes
+expired files. You can delete saved transcript files yourself at any time, or
+copy a transcript elsewhere to keep it. This cleanup applies to Orator's saved
+files; text already inserted into a Codex conversation follows Codex's history
+settings. Temporary audio is removed after transcription or cancellation.
 
 ## Remove
 
@@ -64,6 +72,7 @@ python3 install.py --uninstall
 
 This removes Orator's `codex` symlink. The next terminal session uses the system
 installation. Settings, model files, and build cache are kept for reinstalling.
+The cleanup timer continues to expire any remaining transcript files.
 
 ## Development
 

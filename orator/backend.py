@@ -1,5 +1,6 @@
 """Local transcription worker: `stop` on stdin, JSON events on stdout, EOF to cancel."""
 
+import argparse
 import json
 import multiprocessing as mp
 import os
@@ -7,10 +8,12 @@ from pathlib import Path
 import queue
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import tempfile
 import threading
+import time
 import tomllib
 import unicodedata
 
@@ -31,15 +34,33 @@ def settings():
     data.setdefault("source", "default")
     data.setdefault("language", "auto")
     data.setdefault("cpu_threads", 4)
+    data.setdefault("transcript_retention_hours", 24)
     if not 1 <= data["cpu_threads"] <= 64:
         raise ValueError("Invalid cpu_threads in Orator's config.")
+    retention = data["transcript_retention_hours"]
+    if type(retention) is not int or retention < 1:
+        raise ValueError("transcript_retention_hours must be a positive whole number.")
     data["transcripts"] = (
         Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share"))
         / "orator/transcripts"
     )
-    if not (Path(data["model"]) / "model.bin").is_file():
-        raise ValueError("Local speech model missing. Run the Orator installer.")
     return data
+
+
+def cleanup_transcripts(directory, retention_hours, *, now):
+    """Delete expired Orator transcripts, leaving unrelated files and links alone."""
+    cutoff = now - retention_hours * 3600
+    deleted = 0
+    for path in directory.glob("dictation-*.txt"):
+        try:
+            details = path.lstat()
+            if stat.S_ISREG(details.st_mode) and details.st_mtime <= cutoff:
+                path.unlink()
+                deleted += 1
+        except FileNotFoundError:
+            # Another recording or timer may have cleaned up the same file.
+            continue
+    return deleted
 
 
 def audio_chunks(path):
@@ -62,7 +83,7 @@ def audio_chunks(path):
             yield samples
 
 
-def transcript_result(path, directory):
+def transcript_result(path, directory, *, retention_hours=24):
     """Keep the draft bounded while preserving a long transcript in a private file."""
     with path.open(encoding="utf-8") as transcript:
         text = transcript.read(16001)
@@ -82,7 +103,7 @@ def transcript_result(path, directory):
                 destination = Path(saved.name)
                 transcript.seek(0)
                 shutil.copyfileobj(transcript, saved)
-            return f"Full transcript saved to: {destination}"
+            return f"Full transcript (auto-deletes after {retention_hours}h): {destination}"
         except BaseException:
             if destination is not None:
                 destination.unlink(missing_ok=True)
@@ -163,11 +184,22 @@ def interrupted(_signum, _frame):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--cleanup-transcripts", action="store_true")
+    args = parser.parse_args()
     capture = worker = None
     try:
         signal.signal(signal.SIGTERM, interrupted)
         signal.signal(signal.SIGHUP, interrupted)
         config = settings()
+        deleted = cleanup_transcripts(
+            config["transcripts"], config["transcript_retention_hours"], now=time.time()
+        )
+        if args.cleanup_transcripts:
+            emit("cleanup", deleted=deleted)
+            return
+        if not (Path(config["model"]) / "model.bin").is_file():
+            raise ValueError("Local speech model missing. Run the Orator installer.")
         commands = queue.Queue()
         threading.Thread(target=controls, args=(commands,), daemon=True).start()
         with tempfile.TemporaryDirectory(prefix="orator-") as directory:
@@ -216,6 +248,9 @@ def main():
                                 result["text"] = transcript_result(
                                     Path(result.pop("transcript")),
                                     config["transcripts"],
+                                    retention_hours=config[
+                                        "transcript_retention_hours"
+                                    ],
                                 )
                             emit(**result)
                             return
@@ -266,6 +301,8 @@ def main():
         pass
     except Exception as error:
         emit("error", message=str(error))
+        if args.cleanup_transcripts:
+            raise SystemExit(1)
 
 
 if __name__ == "__main__":
