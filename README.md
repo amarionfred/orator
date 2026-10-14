@@ -5,6 +5,7 @@ A `/record` mod for Codex CLI.
 Type `/record`, speak, then press Enter. Your words go into the draft for editing.
 Esc cancels. Transcription runs locally with Whisper and uses one microphone
 channel. No speech API key is needed.
+Recording continues until you stop it; there is no automatic time limit.
 
 ## Install
 
@@ -36,7 +37,6 @@ Edit `~/.config/orator/config.toml`:
 model = "base"
 language = "auto"
 source = "default"
-max_seconds = 180
 cpu_threads = 4
 ```
 
@@ -44,6 +44,17 @@ Set `language = "en"` for English. To choose a microphone, run
 `pactl list short sources` and put its name in `source`. A name ending in
 `.monitor` records speaker output. Orator records only the first input channel,
 with channel mixing disabled.
+
+Older `max_seconds` settings are ignored. Temporary audio uses about 110 MiB per
+hour in your system temporary directory (`TMPDIR` can select another disk).
+Available storage still limits recording length. Transcription processes audio
+in pieces of at most five minutes and has no fixed deadline; Esc still cancels it.
+
+Dictations up to 16,000 characters go directly into the draft. Longer transcripts
+are saved in full under `~/.local/share/orator/transcripts/` (or
+`$XDG_DATA_HOME/orator/transcripts/`), and their file path goes into the draft for
+review. These text files remain until you delete them; temporary audio is removed
+after transcription or cancellation.
 
 ## Remove
 
@@ -68,13 +79,15 @@ python3 install.py --from-build /path/to/codex-checkout
 Checks:
 
 ```sh
-python3 -m unittest discover -s tests -v
+~/.local/share/orator/venv/bin/python -m unittest discover -s tests -v
 ~/.local/share/orator/venv/bin/python orator/test_capture.py
 python3 orator/qa_backend.py --audio speech.wav --expect "words in the recording"
 ```
 
 The audio checks need FFmpeg and use a temporary virtual input. They do not
-record your microphone. The native patch includes TUI tests for draft insertion,
+record your microphone. Add `--record-seconds 185` to check recording past the old
+cutoff, or `--backend orator/backend.py` to test the source worker with the Orator
+venv's Python. The native patch includes TUI tests for draft insertion,
 cancellation, and key handling.
 
 [Apache-2.0](LICENSE). Upstream attribution is in [NOTICE](NOTICE).

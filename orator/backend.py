@@ -1,20 +1,18 @@
 """Local transcription worker: `stop` on stdin, JSON events on stdout, EOF to cancel."""
 
-from array import array
 import json
 import multiprocessing as mp
 import os
 from pathlib import Path
 import queue
+import shutil
 import signal
 import subprocess
 import sys
 import tempfile
 import threading
-import time
 import tomllib
 import unicodedata
-import wave
 
 
 def emit(event, **fields):
@@ -32,18 +30,69 @@ def settings():
     )
     data.setdefault("source", "default")
     data.setdefault("language", "auto")
-    data.setdefault("max_seconds", 180)
     data.setdefault("cpu_threads", 4)
-    if not 1 <= data["max_seconds"] <= 1800 or not 1 <= data["cpu_threads"] <= 64:
-        raise ValueError("Invalid max_seconds or cpu_threads in Orator's config.")
+    if not 1 <= data["cpu_threads"] <= 64:
+        raise ValueError("Invalid cpu_threads in Orator's config.")
+    data["transcripts"] = (
+        Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share"))
+        / "orator/transcripts"
+    )
     if not (Path(data["model"]) / "model.bin").is_file():
         raise ValueError("Local speech model missing. Run the Orator installer.")
     return data
 
 
+def audio_chunks(path):
+    """Read bounded pieces of mono 16 kHz s16le PCM, preferring quiet boundaries."""
+    import numpy as np
+
+    chunk_samples = 16000 * 300
+    size = path.stat().st_size
+    with path.open("rb") as audio:
+        while raw := audio.read(chunk_samples * 2):
+            samples = np.frombuffer(raw, dtype="<i2").astype(np.float32) / 32768.0
+            if audio.tell() < size:
+                # Split in the quietest 100 ms of the final five seconds. Seek
+                # back so every sample is processed exactly once, including speech.
+                windows = samples[-16000 * 5 :].reshape(-1, 1600)
+                energy = (windows * windows).mean(axis=1)
+                cut = len(samples) - int(np.argmin(energy[::-1])) * 1600 - 800
+                audio.seek((cut - len(samples)) * 2, os.SEEK_CUR)
+                samples = samples[:cut]
+            yield samples
+
+
+def transcript_result(path, directory):
+    """Keep the draft bounded while preserving a long transcript in a private file."""
+    with path.open(encoding="utf-8") as transcript:
+        text = transcript.read(16001)
+        if len(text) <= 16000:
+            return text
+        directory.mkdir(parents=True, exist_ok=True)
+        destination = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                prefix="dictation-",
+                suffix=".txt",
+                dir=directory,
+                delete=False,
+            ) as saved:
+                destination = Path(saved.name)
+                transcript.seek(0)
+                shutil.copyfileobj(transcript, saved)
+            return f"Full transcript saved to: {destination}"
+        except BaseException:
+            if destination is not None:
+                destination.unlink(missing_ok=True)
+            raise
+
+
 def recognize(connection, config):
     try:
         from faster_whisper import WhisperModel
+        from numpy import trim_zeros
 
         model = WhisperModel(
             config["model"],
@@ -52,35 +101,51 @@ def recognize(connection, config):
             cpu_threads=config["cpu_threads"],
             local_files_only=True,
         )
-        path = connection.recv()
-        with wave.open(path, "rb") as audio:
-            samples = array("h", audio.readframes(audio.getnframes()))
-        if samples and sum(abs(s) >= 32440 for s in samples) / len(samples) > 0.02:
-            raise ValueError(
-                "Microphone audio is distorted. Lower your microphone input volume and retry."
-            )
-        segments, _ = model.transcribe(
-            path,
-            language=None if config["language"] == "auto" else config["language"],
-            beam_size=5,
-            temperature=0.0,
-            vad_filter=True,
-            condition_on_previous_text=False,
-            vad_parameters={"min_silence_duration_ms": 500},
-        )
-        segments = list(segments)
-        confident = [
-            segment
-            for segment in segments
-            if segment.avg_logprob >= -1.0 and segment.compression_ratio <= 2.4
-        ]
-        if segments and not confident:
+        path = Path(connection.recv())
+        transcript = path.with_suffix(".txt")
+        heard_speech = confident = False
+        separator = ""
+        with transcript.open("w", encoding="utf-8") as output:
+            for samples in audio_chunks(path):
+                if (abs(samples) >= 32440 / 32768).mean() > 0.02:
+                    raise ValueError(
+                        "Microphone audio is distorted. Lower your microphone input volume and retry."
+                    )
+                # Skip digital silence without letting a long muted interval
+                # affect speech detection. Every nonzero sample is preserved.
+                samples = trim_zeros(samples)
+                if not samples.size:
+                    continue
+                segments, _ = model.transcribe(
+                    samples,
+                    language=None
+                    if config["language"] == "auto"
+                    else config["language"],
+                    beam_size=5,
+                    temperature=0.0,
+                    vad_filter=True,
+                    condition_on_previous_text=False,
+                    vad_parameters={"min_silence_duration_ms": 500},
+                )
+                for segment in segments:
+                    heard_speech = True
+                    if segment.avg_logprob < -1.0 or segment.compression_ratio > 2.4:
+                        continue
+                    confident = True
+                    text = "".join(
+                        c
+                        for c in segment.text
+                        if not unicodedata.category(c).startswith("C")
+                    )
+                    text = " ".join(text.split())
+                    if text:
+                        output.write(separator + text)
+                        separator = " "
+        if heard_speech and not confident:
             raise ValueError(
                 "Couldn't hear speech clearly. Speak closer to the microphone and retry."
             )
-        text = " ".join(segment.text for segment in confident)
-        text = "".join(c for c in text if not unicodedata.category(c).startswith("C"))
-        connection.send(dict(event="result", text=" ".join(text.split())[:16000]))
+        connection.send(dict(event="result", transcript=str(transcript)))
     except Exception as error:
         connection.send(dict(event="error", message=str(error)))
     finally:
@@ -106,7 +171,7 @@ def main():
         commands = queue.Queue()
         threading.Thread(target=controls, args=(commands,), daemon=True).start()
         with tempfile.TemporaryDirectory(prefix="orator-") as directory:
-            path = Path(directory) / "speech.wav"
+            path = Path(directory) / "speech.pcm"
             with (Path(directory) / "capture.log").open("w+b") as errors:
                 try:
                     capture = subprocess.Popen(
@@ -122,7 +187,7 @@ def main():
                             "--no-remix",
                             "--no-remap",
                             "--latency-msec=100",
-                            "--file-format=wav",
+                            "--raw",
                             str(path),
                         ],
                         stdin=subprocess.DEVNULL,
@@ -136,7 +201,6 @@ def main():
                     )
                     worker.start()
                     child_connection.close()
-                    started = time.monotonic()
                     recording_announced = False
                     transcribing = False
                     while True:
@@ -148,17 +212,19 @@ def main():
                             return
                         if connection.poll():
                             result = connection.recv()
+                            if result["event"] == "result":
+                                result["text"] = transcript_result(
+                                    Path(result.pop("transcript")),
+                                    config["transcripts"],
+                                )
                             emit(**result)
                             return
                         if not worker.is_alive():
                             raise RuntimeError(
                                 "Speech worker stopped unexpectedly. Try /record again."
                             )
-                        elapsed = time.monotonic() - started
                         if not transcribing and (
-                            control == "stop"
-                            or capture.poll() is not None
-                            or elapsed >= config["max_seconds"]
+                            control == "stop" or capture.poll() is not None
                         ):
                             if capture.poll() is None:
                                 capture.send_signal(signal.SIGINT)
@@ -182,14 +248,10 @@ def main():
                             not transcribing
                             and not recording_announced
                             and path.exists()
-                            and path.stat().st_size > 44
+                            and path.stat().st_size > 0
                         ):
                             emit("recording")
                             recording_announced = True
-                        if transcribing and elapsed > config["max_seconds"] + 120:
-                            raise RuntimeError(
-                                "Transcription timed out. Try a shorter recording."
-                            )
                 finally:
                     if capture is not None and capture.poll() is None:
                         capture.kill()

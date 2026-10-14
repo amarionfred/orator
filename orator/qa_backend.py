@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import select
 import subprocess
+import sys
 import tempfile
 import time
 
@@ -32,6 +33,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--audio", required=True, type=Path, help="Speech recording")
     parser.add_argument("--expect", required=True, help="Expected transcript fragment")
+    parser.add_argument(
+        "--backend", type=Path, help="Test a source worker with this Python interpreter"
+    )
+    parser.add_argument(
+        "--record-seconds",
+        type=float,
+        default=0,
+        help="Keep recording this long before playing speech",
+    )
     args = parser.parse_args()
     if not args.audio.is_file():
         parser.error(f"Audio file does not exist: {args.audio}")
@@ -48,10 +58,15 @@ def main():
             config = Path(directory) / "orator"
             config.mkdir()
             (config / "config.toml").write_text(
-                f'source = "{sink}.monitor"\nlanguage = "en"\n'
+                f'source = "{sink}.monitor"\nlanguage = "en"\nmax_seconds = 180\n'
             )
             env = dict(os.environ, XDG_CONFIG_HOME=directory)
             backend = Path.home() / ".local/share/orator/bin/orator-backend"
+            invocation = (
+                [sys.executable, str(args.backend.resolve())]
+                if args.backend
+                else [backend]
+            )
             for mode in (
                 "speech",
                 "silence",
@@ -60,13 +75,24 @@ def main():
                 "terminal_closed",
             ):
                 worker = subprocess.Popen(
-                    [backend],
+                    invocation,
                     env=env,
                     stdin=subprocess.PIPE,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                 )
                 wait_event(worker, "recording")
+                if mode == "speech" and args.record_seconds:
+                    deadline = time.monotonic() + args.record_seconds
+                    while time.monotonic() < deadline:
+                        assert worker.poll() is None, "Recording stopped before Enter"
+                        assert not select.select([worker.stdout], [], [], 0.2)[0], (
+                            worker.stdout.readline()
+                        )
+                    print(
+                        f"PASS: recording still active after {args.record_seconds:g} seconds",
+                        flush=True,
+                    )
                 if mode in ("speech", "cancel_transcription"):
                     subprocess.run(
                         [

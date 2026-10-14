@@ -11,7 +11,6 @@ import sys
 import tempfile
 import time
 import unittest
-import wave
 
 
 def command(*args):
@@ -64,7 +63,7 @@ class CaptureTests(unittest.TestCase):
                     stderr=subprocess.PIPE,
                 )
                 event(worker, "recording")
-                recording = next(directory.glob("orator-*/speech.wav")).open("rb")
+                recording = next(directory.glob("orator-*/speech.pcm")).open("rb")
                 with recording:
                     subprocess.run(
                         [
@@ -95,11 +94,9 @@ class CaptureTests(unittest.TestCase):
                     event(worker, "transcribing")
                     worker.stdin.close()
                     worker.wait(timeout=5)
-                    with wave.open(recording, "rb") as audio:
-                        self.assertEqual(
-                            (audio.getnchannels(), audio.getframerate()), (1, 16000)
-                        )
-                        samples = array("h", audio.readframes(audio.getnframes()))
+                    samples = array("h", recording.read())
+                    if sys.byteorder != "little":
+                        samples.byteswap()
                 powers = []
                 for frequency in (440, 880):
                     real = sum(

@@ -110,8 +110,7 @@ def install_worker(data, cache, config):
     settings = config / "config.toml"
     if not settings.exists():
         settings.write_text(
-            'model = "base"\nlanguage = "auto"\nsource = "default"\n'
-            "max_seconds = 180\ncpu_threads = 4\n"
+            'model = "base"\nlanguage = "auto"\nsource = "default"\ncpu_threads = 4\n'
         )
 
 
